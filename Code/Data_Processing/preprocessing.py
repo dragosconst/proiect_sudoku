@@ -6,7 +6,7 @@ def show_image(title,image):
     cv.waitKey(0)
     cv.destroyAllWindows()
 
-# almost perfect values, I think
+# almost perfect values, IO think
 def preprocess_image(image):
     image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
     image_m_blur = cv.medianBlur(image, 3)

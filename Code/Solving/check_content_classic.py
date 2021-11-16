@@ -1,6 +1,6 @@
 import cv2.cv2 as cv
 import numpy as np
-from get_squares import RESIZED_SQ, AVG_SQUARE
+from Code.Data_Processing.get_squares import RESIZED_SQ, AVG_SQUARE
 
 def normalize_image(img):
     noise = cv.dilate(img, np.ones((7,7),np.uint8))
@@ -63,25 +63,12 @@ def check_square(square):
                 # check if it's not centered
                 # we'll start translating towards all four corners
                 # print(mean_center_patch)
-                # print("I think it's full")
+                # print("IO think it's full")
                 ans[i][j] = "x"
-                # print(mean_center_patch)
-                # cv.imshow("patch", center_patch)
-                # cv.waitKey(0)
-                # cv.destroyAllWindows()
-                # cv.imshow("patch", current_patch)
-                # cv.waitKey(0)
-                # cv.destroyAllWindows()
             else:
                 # print(mean_center_patch)
-                # print("I think it's empty")
+                # print("IO think it's empty")
                 ans[i][j] = "o"
-
-            # if i == 7 and j == 6:
-            #     print(mean_center_patch)
-            #     cv.imshow("patch", current_patch)
-            #     cv.waitKey(0)
-            #     cv.destroyAllWindows()
             j += 1
         i += 1
     return ans

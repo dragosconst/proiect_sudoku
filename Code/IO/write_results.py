@@ -1,11 +1,8 @@
-import cv2.cv2 as cv
-import numpy as np
 import os
 import errno
-from load_images import CLASSIC, JIGSAW
+from Code.IO.load_images import CLASSIC
 
-
-FILEPATH = "evaluare/fisiere_solutie/Tantaru_Dragos-Constantin_344/"
+FILEPATH = "././evaluare/fisiere_solutie/Tantaru_Dragos-Constantin_344/"
 CLASSIC_PATH = "classic/"
 JIGSAW_PATH = "jigsaw/"
 

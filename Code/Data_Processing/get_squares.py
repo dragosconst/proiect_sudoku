@@ -1,5 +1,5 @@
-from preprocessing import *
-from load_images import CLASSIC, JIGSAW
+from Code.Data_Processing.preprocessing import *
+from Code.IO.load_images import CLASSIC
 
 THRESHOLD_ROTATE = 10
 RESIZED_SQ = (500, 500)
@@ -41,6 +41,7 @@ def crop_squares(imgs, how_many=20, flag=CLASSIC):
                                            int(abs(np.sin(rot_angle) * (xn - x0)) +
                                                abs(np.cos(rot_angle) * (yn - y0)))))
 
+
             # recalculate where the points are
             if x0 == tlx:
                 old_points = np.array([[(0, tly - y0), (trx - x0, 0), (blx - x0, yn - y0 - 1), (xn - x0 - 1, bry - y0)]])
@@ -53,9 +54,7 @@ def crop_squares(imgs, how_many=20, flag=CLASSIC):
             y0 = np.max((np.max(np.array([tly, trry])), 0))
             xn = np.max((np.min(np.array([trx, brx])), 0))
             yn = np.max((np.min(np.array([bly, bry])), 0))
-            # print("yamasha")
-            print("yamasha")
-            print(x0, y0, xn, yn, tlx, tly, blx, bly, trx, trry, brx, bry)
+
             old_perspective = cv.transform(old_points, rotation_mat)
             old_perspective = np.array(old_perspective, np.float32)
             new_perspective = np.array([[(x0, y0), (xn - 1, y0), (x0, yn - 1), (xn - 1, yn - 1)]], np.float32)
@@ -70,16 +69,6 @@ def crop_squares(imgs, how_many=20, flag=CLASSIC):
             persp_transform = cv.getPerspectiveTransform(old_perspective, new_perspective)
             img_rot = cv.warpPerspective(img_rot.copy(), persp_transform, (img_rot.shape[0], img_rot.shape[1]))
             sudoku_squares += [img_rot[y0:yn, x0:xn, :]]
-
-            image_copy = img_rot[(y0):yn, (x0):xn, :].copy()
-            cv.circle(image_copy, tuple((tlx - x0, tly - y0)), 4, (0, 0, 255), -1)
-            cv.circle(image_copy, tuple((trx - x0, trry - y0)), 4, (0, 255, 0), -1)
-            cv.circle(image_copy, tuple((blx - x0, bly - y0)), 4, (255, 0, 0), -1)
-            cv.circle(image_copy, tuple((brx - x0, bry - y0)), 4, (0, 255, 255), -1)
-            #
-            # cv.imshow("yamasrfwrtwrha", image_copy)
-            # cv.waitKey(0)
-            # cv.destroyAllWindows()
             continue
 
         print(x0, y0, xn, yn, tlx, tly, blx, bly, trx, trry, brx, bry)

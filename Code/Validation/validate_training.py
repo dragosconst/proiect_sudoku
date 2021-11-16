@@ -1,5 +1,5 @@
 import os
-TRAINING_PATH_CLASSIC = "antrenare/clasic/"
+TRAINING_PATH_CLASSIC = "././antrenare/clasic/"
 BONUS = "_bonus"
 GT = "_gt"
 EXT = ".txt"
@@ -30,4 +30,4 @@ def check_results(answers):
         if ans == res:
             print("Test passed!")
         else:
-            print("Test failed, i=%s", i)
+            print("Test failed, i=%i", i)
