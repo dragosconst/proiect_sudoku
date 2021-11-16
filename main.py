@@ -1,8 +1,11 @@
 from Code.IO.load_images import load_imgs
 from Code.Data_Processing.get_squares import *
 from Code.Solving.check_content_classic import check_all_squares
-from Code.IO.write_results import write_ans
+from Code.Solving.bonus_classic import check_templates
+from Code.IO.write_results import write_ans, write_bonus
 from Code.Validation.validate_training import check_results
+from Code.IO.get_number_templates import get_templates
+from Code.Data_Processing.processing_squares import process_square
 
 __all__ = [cv, np]
 
@@ -10,8 +13,10 @@ imgs = load_imgs()
 sudoku_squares = crop_squares(imgs, len(imgs))
 sudoku_squares = resize_squares(sudoku_squares)
 answers = check_all_squares(sudoku_squares)
+bonuses = check_templates(sudoku_squares, answers)
 check_results(answers)
 write_ans(answers)
+write_bonus(bonuses)
 
 
 
