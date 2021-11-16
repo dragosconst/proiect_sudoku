@@ -6,6 +6,7 @@ from Code.IO.write_results import write_ans, write_bonus
 from Code.Validation.validate_training import check_results
 from Code.IO.get_number_templates import get_templates
 from Code.Data_Processing.processing_squares import process_square
+from Code.Validation.validate_bonus import check_bonus
 
 __all__ = [cv, np]
 
@@ -15,6 +16,7 @@ sudoku_squares = resize_squares(sudoku_squares)
 answers = check_all_squares(sudoku_squares)
 bonuses = check_templates(sudoku_squares, answers)
 check_results(answers)
+check_bonus(bonuses)
 write_ans(answers)
 write_bonus(bonuses)
 
