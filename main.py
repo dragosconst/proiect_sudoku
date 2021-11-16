@@ -16,12 +16,12 @@ check_square(sudoku_squares[11])
 
 lines_vertical=[]
 ind = 0
-for i in range(10,500,55):
+for i in range(0,500,55):
     l=[]
     if i % 10 == 0:
         ind += 1
-    l.append((i,0))
-    l.append((i,499))
+    l.append((ind,0))
+    l.append((ind,499))
     lines_vertical.append(l)
     ind += 55
 
@@ -31,8 +31,8 @@ for i in range(0,500,55):
     l=[]
     if i % 10 == 0:
         ind += 1
-    l.append((0,i))
-    l.append((499,i))
+    l.append((0,ind))
+    l.append((499,ind))
     lines_horizontal.append(l)
     ind += 55
 

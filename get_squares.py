@@ -53,18 +53,31 @@ def crop_squares(imgs, how_many=20, flag=CLASSIC):
             y0 = np.max((np.max(np.array([tly, trry])), 0))
             xn = np.max((np.min(np.array([trx, brx])), 0))
             yn = np.max((np.min(np.array([bly, bry])), 0))
-
-            sudoku_squares += [img_rot[(y0):yn, (x0):xn, :]]
             # print("yamasha")
             print("yamasha")
             print(x0, y0, xn, yn, tlx, tly, blx, bly, trx, trry, brx, bry)
+            old_perspective = cv.transform(old_points, rotation_mat)
+            old_perspective = np.array(old_perspective, np.float32)
+            new_perspective = np.array([[(x0, y0), (xn - 1, y0), (x0, yn - 1), (xn - 1, yn - 1)]], np.float32)
+
+            """
+            A bizzare event unfolds often after rotations. For some reason, rotated images seem to have a weird
+            deviation on their horizontal lines (after rotation), that's usually just small enough to disrupt my
+            predictions, using the center patch idea. Warping the perspective so it should be as expected should
+            hopefully solve this problem.
+            """
+
+            persp_transform = cv.getPerspectiveTransform(old_perspective, new_perspective)
+            img_rot = cv.warpPerspective(img_rot.copy(), persp_transform, (img_rot.shape[0], img_rot.shape[1]))
+            sudoku_squares += [img_rot[y0:yn, x0:xn, :]]
+
             image_copy = img_rot[(y0):yn, (x0):xn, :].copy()
             cv.circle(image_copy, tuple((tlx - x0, tly - y0)), 4, (0, 0, 255), -1)
             cv.circle(image_copy, tuple((trx - x0, trry - y0)), 4, (0, 255, 0), -1)
             cv.circle(image_copy, tuple((blx - x0, bly - y0)), 4, (255, 0, 0), -1)
             cv.circle(image_copy, tuple((brx - x0, bry - y0)), 4, (0, 255, 255), -1)
-
-            # cv.imshow("yamasha", image_copy)
+            #
+            # cv.imshow("yamasrfwrtwrha", image_copy)
             # cv.waitKey(0)
             # cv.destroyAllWindows()
             continue
