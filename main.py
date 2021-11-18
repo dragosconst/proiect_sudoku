@@ -13,7 +13,7 @@ __all__ = [cv, np]
 
 # solve for task one + bonus
 imgs_classic = load_imgs()
-sudoku_squares = crop_squares(imgs_classic, len(imgs_classic))
+sudoku_squares = crop_squares(imgs_classic)
 sudoku_squares = resize_squares(sudoku_squares)
 answers = check_all_squares(sudoku_squares)
 bonuses = check_templates(sudoku_squares, answers)
@@ -25,7 +25,8 @@ write_bonus(bonuses)
 # solve for task two + bonus
 imgs_jigsaw = load_imgs(JIGSAW)
 jig_gray, jig_bgr = sort_colors(imgs_jigsaw) # sort in the gray and bgr set
-print(len(jig_gray), len(jig_bgr))
+sudoku_sq_gray, sudoku_sq_bgr = crop_squares(jig_gray, JIGSAW), crop_squares(jig_bgr, JIGSAW)
+sudoku_sq_gray, sudoku_sq_bgr = resize_squares(sudoku_sq_gray), resize_squares(sudoku_sq_bgr)
 
 
 # def get_results(img,lines_horizontal,lines_vertical):

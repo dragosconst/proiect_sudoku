@@ -1,5 +1,7 @@
 import numpy as np
 import cv2.cv2 as cv
+from Code.IO.load_images import CLASSIC, JIGSAW
+
 
 def show_image(title,image):
     cv.imshow(title,image)
@@ -7,7 +9,7 @@ def show_image(title,image):
     cv.destroyAllWindows()
 
 # almost perfect values, IO think
-def preprocess_image(image):
+def preprocess_image(image, flag=CLASSIC):
     image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
     image_m_blur = cv.medianBlur(image, 3)
     image_g_blur = cv.GaussianBlur(image_m_blur, (0, 0), 7)
@@ -20,7 +22,8 @@ def preprocess_image(image):
     # show_image("median blurred", image_m_blur)
     # show_image("gaussian blurred", image_g_blur)
     # show_image("sharpened", image_sharpened)
-    # show_image("threshold of blur", thresh)
+    # if flag == JIGSAW:
+    #     show_image("threshold of blur", thresh)
 
     edges = cv.Canny(thresh, 150, 400)
     contours, _ = cv.findContours(edges, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
@@ -58,6 +61,7 @@ def preprocess_image(image):
     cv.circle(image_copy, tuple(top_right), 4, (0, 255, 0), -1)
     cv.circle(image_copy, tuple(bottom_left), 4, (255, 0, 0), -1)
     cv.circle(image_copy, tuple(bottom_right), 4, (0, 255, 255), -1)
-    # show_image("detected corners", image_copy)
+    # if flag == JIGSAW:
+    #     show_image("detected corners", image_copy)
 
     return top_left, top_right, bottom_left, bottom_right

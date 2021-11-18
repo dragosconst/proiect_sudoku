@@ -5,13 +5,13 @@ THRESHOLD_ROTATE = 10
 RESIZED_SQ = (500, 500)
 AVG_SQUARE = (RESIZED_SQ[0] // 9, RESIZED_SQ[1] // 9)
 
-def crop_squares(imgs, how_many=20, flag=CLASSIC):
+def crop_squares(imgs, flag=CLASSIC):
     sudoku_squares = []
     ind = 1
     for img in imgs:
         print(ind)
         ind += 1
-        (tlx, tly), (trx, trry), (blx, bly), (brx, bry) = preprocess_image(img)
+        (tlx, tly), (trx, trry), (blx, bly), (brx, bry) = preprocess_image(img, flag)
         x0 = np.min(np.array([tlx, blx]))
         y0 = np.min(np.array([tly, trry]))
         xn = np.max(np.array([trx, brx]))
