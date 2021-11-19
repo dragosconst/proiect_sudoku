@@ -27,10 +27,10 @@ def write_ans(answers, flag=CLASSIC):
         f.close()
         index += 1
 
-def write_bonus(bonuses):
+def write_bonus(bonuses, flag=CLASSIC):
     index = 1
     for bonus in bonuses:
-        with open(FILEPATH + CLASSIC_PATH + str(index) + BONUS_TEXT + "predictie.txt", "w") as f:
+        with open(FILEPATH + (CLASSIC_PATH if flag == CLASSIC else JIGSAW_PATH) + str(index) + BONUS_TEXT + "predictie.txt", "w") as f:
             for line in bonus:
                 for char in line:
                     f.write(char)

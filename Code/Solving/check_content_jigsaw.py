@@ -3,6 +3,7 @@ import numpy as np
 import math
 from Code.Data_Processing.get_squares import RESIZED_SQ, AVG_SQUARE
 from Code.Data_Processing.processing_squares import  *
+from Code.IO.get_number_templates import get_j_bgr_templates, get_j_gray_templates
 
 LEFT_BORDER  = 2 ** 0
 RIGHT_BORDER = 2 ** 1
@@ -13,9 +14,9 @@ BOT_BORDER   = 2 ** 3
 def check_square_j_gray(square):
     square_only_lines = process_square_j_gray(square)
     square = process_square(square)
-    cv.imshow("square", square_only_lines)
-    cv.waitKey(0)
-    cv.destroyAllWindows()
+    # cv.imshow("square", square_only_lines)
+    # cv.waitKey(0)
+    # cv.destroyAllWindows()
     ans = [["" for i in range(9)] for j in range(9)]
     blocks = np.zeros((9, 9), np.uint8) # a matrix containing all the blocking walls
 
