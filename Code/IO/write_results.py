@@ -18,7 +18,7 @@ def write_ans(answers, flag=CLASSIC):
 
     index = 1
     for ans in answers:
-        with open(FILEPATH + CLASSIC_PATH + str(index) + "_" + "predictie.txt", "w") as f:
+        with open(FILEPATH + (CLASSIC_PATH if flag == CLASSIC else JIGSAW_PATH) + str(index) + "_" + "predictie.txt", "w") as f:
             for line in ans:
                 for char in line:
                     f.write(char)

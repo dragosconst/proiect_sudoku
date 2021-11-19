@@ -13,20 +13,6 @@ def check_square(square):
     dx, dy = RESIZED_SQ
     stepx, stepy = AVG_SQUARE
     i, j = 0, 0
-    patches_mean_sum = 0
-    for yi in range(0, dy, stepy):
-        if yi + stepy >= dy:  # skip bottom part of image
-            continue
-        j = 0
-        for xi in range(0, dx, stepx):
-            if xi + stepx >= dx:  # last bit of the square is uninteresting
-                continue
-            current_patch = square[yi:yi+stepy, xi:xi+stepx]
-            mean_patch = np.mean(current_patch.squeeze())
-            patches_mean_sum += mean_patch
-
-    mean_patches = patches_mean_sum / 81
-    print(mean_patches)
 
     for yi in range(0, dy, stepy):
         if yi + stepy >= dy: # skip bottom part of image

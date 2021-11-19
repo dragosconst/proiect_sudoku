@@ -1,5 +1,6 @@
 import cv2.cv2 as cv
 import numpy as np
+from Code.IO.load_images import CLASSIC, JIGSAW
 
 def normalize_image(img):
     noise = cv.dilate(img, np.ones((7,7),np.uint8))
@@ -18,5 +19,20 @@ def process_square(square):
     _, thresh = cv.threshold(square_sharpened, 5, 255, cv.THRESH_BINARY)
 
     edges = cv.Canny(cv.bitwise_not(thresh), square.shape[0], square.shape[1])
+
+    return thresh
+
+
+# this will only leave the thicc lines
+def process_square_j_bgr(square):
+    square = cv.cvtColor(square, cv.COLOR_BGR2GRAY)
+    square = normalize_image(square)
+    square_m_blur = cv.medianBlur(square, 7)
+    square_g_blur = cv.GaussianBlur(square_m_blur, (0, 0), 7)
+    square_sharpened = cv.addWeighted(square_m_blur, 1.35, square_g_blur, -0.85, 0)
+    _, thresh = cv.threshold(square_sharpened, 5, 255, cv.THRESH_BINARY)
+
+    kernel = np.ones((3, 3), np.uint8)
+    thresh = cv.dilate(thresh, kernel)
 
     return thresh

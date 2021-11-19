@@ -16,11 +16,20 @@ def is_gray(img):
 def sort_colors(imgs):
     imgs_gray = []
     imgs_bgr = []
+    imgs_pos = [] # a list of (type, pos) tuples, where type is which list it's part of (bgr or gray)
+                  # and pos is the position in that list
 
+    i_b = 0
+    i_g = 0
     for img in imgs:
         if is_gray(img):
             imgs_gray.append(img)
+            imgs_pos.append((0, i_g))
+            i_g += 1
         else:
             imgs_bgr.append(img)
+            imgs_pos.append((1, i_b))
+            i_b += 1
 
-    return imgs_gray, imgs_bgr
+
+    return imgs_gray, imgs_bgr, imgs_pos

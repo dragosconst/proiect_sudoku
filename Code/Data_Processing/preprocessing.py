@@ -26,7 +26,7 @@ def preprocess_image(image, flag=CLASSIC):
     #     show_image("threshold of blur", thresh)
 
     edges = cv.Canny(thresh, 150, 400)
-    contours, _ = cv.findContours(edges, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+    contours, con = cv.findContours(edges, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
     max_area = 0
 
     for i in range(len(contours)):
