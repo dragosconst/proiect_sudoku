@@ -195,6 +195,16 @@ def check_square_j_bgr(square):
                 ans[i][j] = "o"
             j += 1
         i += 1
+
+    # rewrite the regions_patches matrix, so it contains the regions ordered by the order given in the task
+    unique_regions = dict()
+    unique_so_far = 1
+    for i, line in enumerate(regions_patches):
+        for j, _ in enumerate(line):
+            if regions[regions_patches[i][j]] not in unique_regions:
+                unique_regions[regions[regions_patches[i][j]]] = unique_so_far
+                unique_so_far += 1
+            regions_patches[i][j] = unique_regions[regions[regions_patches[i][j]]]
     return ans
 
 def check_all_squares_j_bgr(squares):
