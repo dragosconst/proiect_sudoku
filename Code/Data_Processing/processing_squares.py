@@ -36,3 +36,18 @@ def process_square_j_bgr(square):
     thresh = cv.dilate(thresh, kernel)
 
     return thresh
+
+def process_square_j_gray(square):
+    square = cv.cvtColor(square, cv.COLOR_BGR2GRAY)
+    square = normalize_image(square)
+    square_m_blur = cv.medianBlur(square, 5)
+    square_g_blur = cv.GaussianBlur(square_m_blur, (0, 0), 7)
+    square_sharpened = cv.addWeighted(square_m_blur, 1.35, square_g_blur, -0.85, 0)
+    _, thresh = cv.threshold(square_sharpened, 5, 255, cv.THRESH_BINARY)
+
+    kernel = np.ones((3, 3), np.uint8)
+    thresh = cv.dilate(thresh, kernel)
+    thresh = cv.erode(thresh, kernel)
+
+    return thresh
+

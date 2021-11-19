@@ -71,6 +71,16 @@ def crop_squares(imgs, flag=CLASSIC):
             sudoku_squares += [img_rot[y0:yn, x0:xn, :]]
             continue
 
+        """
+        Some photos have perspectives that are just a tiny bit off from being parallel enough, so with this
+        perspective trick I make sure I get them close enough to being parallel. Due to the approach of checking
+        each patch 55x55, the closeness to actual parallel lines matters a lot for my program.
+        """
+        old_perspective = np.array([[(tlx, tly), (trx, trry), (blx, bly), (brx, bry)]])
+        old_perspective = np.array(old_perspective, np.float32)
+        new_perspective = np.array([[(x0, y0), (xn - 1, y0), (x0, yn - 1), (xn - 1, yn - 1)]], np.float32)
+        persp_transform = cv.getPerspectiveTransform(old_perspective, new_perspective)
+        img = cv.warpPerspective(img.copy(), persp_transform, (img.shape[0] * 2, img.shape[1] * 2))
         print(x0, y0, xn, yn, tlx, tly, blx, bly, trx, trry, brx, bry)
         sudoku_squares += [img[y0:yn, x0:xn, :]]
     #

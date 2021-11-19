@@ -8,7 +8,8 @@ from Code.IO.get_number_templates import get_templates
 from Code.Data_Processing.processing_squares import process_square
 from Code.Validation.validate_bonus import check_bonus
 from Code.Data_Processing.sort_jigsaw import sort_colors
-from Code.Solving.check_content_jigsaw import check_all_squares_j_gray, check_all_squares_j_bgr, merge_answers
+from Code.Solving.check_content_jigsaw import check_all_squares_j_gray, check_all_squares_j_bgr, merge_answers, \
+    check_square_j_bgr
 
 __all__ = [cv, np]
 
@@ -31,8 +32,8 @@ def main():
     sudoku_sq_gray, sudoku_sq_bgr = resize_squares(sudoku_sq_gray), resize_squares(sudoku_sq_bgr)
     answers_sq_gray, answers_sq_bgr = check_all_squares_j_gray(sudoku_sq_gray), check_all_squares_j_bgr(sudoku_sq_bgr)
     answers_j = merge_answers(answers_sq_gray, answers_sq_bgr, positions)
-    check_results(answers, JIGSAW)
-    write_ans(answers, JIGSAW)
+    check_results(answers_j, JIGSAW)
+    write_ans(answers_j, JIGSAW)
 
     # def get_results(img,lines_horizontal,lines_vertical):
     #     for i in range(len(lines_horizontal) - 1):

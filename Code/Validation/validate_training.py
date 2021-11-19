@@ -28,7 +28,9 @@ def check_results(answers, flag=CLASSIC):
     for i in range(len(answers)):
         ans = answers[i]
         res = results[i]
+        if flag == JIGSAW:
+            my_var = 13
         if ans == res:
             print("Test passed!")
         else:
-            print("Test failed, i=%i", i)
+            print(f"Test failed, i={i}")
