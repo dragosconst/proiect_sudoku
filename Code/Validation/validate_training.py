@@ -13,15 +13,12 @@ def check_results(answers, flag=CLASSIC):
         this_result = [["" for i in range(len(answers[0][1]))] for j in range(len(answers[0]))]
         with open((TRAINING_PATH_CLASSIC if flag == CLASSIC else TRAINING_PATH_JIGSAW) + ("0" if i < 10 else "") + str(i) + GT + EXT, "r") as f:
             lines = f.readlines()
-            k, j = 0, 0
-            for line in lines:
-                j = 0
-                for char in line:
+            for k, line in enumerate(lines):
+                for j, char in enumerate(line):
                     if char == "\n":
                         continue
                     this_result[k][j] = char
-                    j += 1
-                k += 1
+
             results[i - 1] = this_result.copy()
 
     # check them against my answers

@@ -68,11 +68,11 @@ def look_for_borders(patch):
     lines = cv.HoughLines(edges, 1, np.pi / 180, 100, None, 0, 0)
     lb, rb, ub, bb = False, False, False, False
     if lines is not None:
-        for i in range(0, len(lines)):
+        for i, line in enumerate(lines):
             # there could be false border detections, for example detecting the line in a 1, so we should check
             # if rho is really close to the border, besides checking theta's value
-            rho = lines[i][0][0]
-            theta = lines[i][0][1]
+            rho = line[0][0]
+            theta = line[0][1]
             # stuff for showing the lines, for debugging
             a = np.cos(theta)
             b = np.sin(theta)

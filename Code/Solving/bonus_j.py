@@ -8,9 +8,9 @@ def check_square_j(square, ans, temp_classic, temp_j_bgr, temp_j_gray):
     sx, sy = AVG_SQUARE
 
     bonus = [["" for i in range(len(ans[0]))] for j in range(len(ans))]
-    for i in range(len(ans)):
+    for i, line in enumerate(ans):
         tj = 0 # use tj to ignore the numbers for the regions
-        for j in range(len(ans[0])):
+        for j, _ in enumerate(line):
             if ans[i][j] == "x":
                 x, y = sx * tj, sy * i
                 patch = square[y:(y+sy), x:(x+sx)]
@@ -42,7 +42,7 @@ def check_templates_bgr(squares, answers):
     temp_j_gray = load_templates_gray()
 
     bonuses = []
-    for i in range(len(squares)):
+    for i, _ in enumerate(squares):
         square = process_square(squares[i])
         ans = answers[i]
 
@@ -57,7 +57,7 @@ def check_templates_gray(squares, answers):
     temp_j_gray = load_templates_gray()
 
     bonuses = []
-    for i in range(len(squares)):
+    for i, _ in enumerate(squares):
         square = process_square(squares[i])
         ans = answers[i]
 
