@@ -22,8 +22,7 @@ def check_bonus(answers, flag=CLASSIC):
             results[i - 1] = this_result.copy()
 
     # check them against my answers
-    for i in range(len(answers)):
-        ans = answers[i]
+    for i, ans in enumerate(answers):
         res = results[i]
         if ans == res:
             print("Bonus passed!")
