@@ -18,8 +18,6 @@ def process_square(square):
     square_sharpened = cv.addWeighted(square_m_blur, 1.35, square_g_blur, -0.85, 0)
     _, thresh = cv.threshold(square_sharpened, 5, 255, cv.THRESH_BINARY)
 
-    edges = cv.Canny(cv.bitwise_not(thresh), square.shape[0], square.shape[1])
-
     return thresh
 
 

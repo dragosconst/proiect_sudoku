@@ -4,6 +4,7 @@ import math
 from Code.Data_Processing.get_squares import RESIZED_SQ, AVG_SQUARE
 from Code.Data_Processing.processing_squares import  *
 from Code.IO.get_number_templates import get_j_bgr_templates, get_j_gray_templates
+from Code.Data_Processing.sort_jigsaw import GRAY, BGR
 
 LEFT_BORDER  = 2 ** 0
 RIGHT_BORDER = 2 ** 1
@@ -14,9 +15,6 @@ BOT_BORDER   = 2 ** 3
 def check_square_j_gray(square):
     square_only_lines = process_square_j_gray(square)
     square = process_square(square)
-    # cv.imshow("square", square_only_lines)
-    # cv.waitKey(0)
-    # cv.destroyAllWindows()
     ans = [["" for i in range(9)] for j in range(9)]
     blocks = np.zeros((9, 9), np.uint8) # a matrix containing all the blocking walls
 
@@ -43,15 +41,10 @@ def check_square_j_gray(square):
             mark_borders(blocks, i, j, borders)
 
             last_region = check_patch_borders(i, j, blocks, regions, regions_patches, last_region)
-            # print(mean_center_patch)
             if mean_center_patch < 255:
-                # check if it's not centered
-                # we'll start translating towards all four corners
-                # print(mean_center_patch)
                 # print("IO think it's full")
                 ans[i][j] = "x"
             else:
-                # print(mean_center_patch)
                 # print("IO think it's empty")
                 ans[i][j] = "o"
             j += 1
@@ -69,16 +62,15 @@ def check_all_squares_j_gray(squares):
 
 def look_for_borders(patch):
     # the patch is already processed from the check square function, we can directly look for contours
-    patch_resized = cv.resize(patch, (0, 0), fx=5, fy=5)
-    # should erode, maybe?
+    patch_resized = cv.resize(patch, (0, 0), fx=5, fy=5) # on smaller patches, we'd need to use less votes for Hough, but that could lead to false detecions + harder to debug and look for the right values when you can barely see the patch
     edges = cv.Canny(patch_resized, 150, 400)
-    edges_color = cv.cvtColor(edges, cv.COLOR_GRAY2BGR)
+    edges_color = cv.cvtColor(edges, cv.COLOR_GRAY2BGR) # for debugging
     lines = cv.HoughLines(edges, 1, np.pi / 180, 100, None, 0, 0)
     lb, rb, ub, bb = False, False, False, False
     if lines is not None:
         for i in range(0, len(lines)):
-            # lines are only going to be detected on borders, we have to look only at rho and theta to get an idea
-            # of which border it is
+            # there could be false border detections, for example detecting the line in a 1, so we should check
+            # if rho is really close to the border, besides checking theta's value
             rho = lines[i][0][0]
             theta = lines[i][0][1]
             # stuff for showing the lines, for debugging
@@ -91,13 +83,13 @@ def look_for_borders(patch):
 
             if np.isclose(0, theta):
                 # left or right border
-                if rho < patch_resized.shape[0] / 5: # left border
+                if rho < patch_resized.shape[0] / 5:
                     lb = True
                     cv.line(edges_color, pt1, pt2, (0, 0, 255), 3, cv.LINE_AA)
                 elif rho >= patch_resized.shape[0] * 4 / 5:
                     rb = True
                     cv.line(edges_color, pt1, pt2, (0, 255, 0), 3, cv.LINE_AA)
-            else: # i won't check for it, but logically theta should be close to np.pi / 2
+            else:
                 # up or down border
                 if rho < patch_resized.shape[1] / 5:
                     ub = True
@@ -105,7 +97,7 @@ def look_for_borders(patch):
                 elif rho >= patch_resized.shape[1] * 4 / 5:
                     bb = True
                     cv.line(edges_color, pt1, pt2, (0, 255, 255), 3, cv.LINE_AA)
-    # cv.imshow("original peci", patch_resized)
+    # cv.imshow("original patch", patch_resized)
     # cv.waitKey(0)
     # cv.destroyAllWindows()
     # cv.imshow("Detected Lines (in red) - Standard Hough Line Transform", edges_color)
@@ -115,6 +107,7 @@ def look_for_borders(patch):
     return lb, rb, ub, bb
 
 # function to mark borders in the blocks matrix
+# with the following encoding = ...0000 means no borders, ...0001 means lb, ...0010 means rb, ...0100 means ub, ...1000 means db and any combinations have their obvious meanings
 def mark_borders(blocks, i, j, borders):
     (lb, rb, ub , bb) = borders
     if lb:
@@ -137,10 +130,13 @@ def mark_borders(blocks, i, j, borders):
 def check_patch_borders(i, j, blocks, regions, regions_patches, last_region):
     """
     Due to the manner in which we traverse the sudoku square, from top-left to bottom-right,
-    it shoulde be impossible that when we are at a give point, we haven't already detected all possible
-    borders to the adjacent regions calculated until this step. The only case when this could arrise is
-    by a problem with accurately determining where the borders are, but that's out of the scope of the
-    region-merging algorithm.
+    it should be impossible that when we are at a give point, we haven't already detected all possible
+    borders to the adjacent regions calculated until this step. What that means is that if there was no
+    border to the top or left region so far, it's impossible for these regions to separate in the future
+    (however it is possible to have borders to the right or bottom that were not yet discovered, due to
+    cropping).
+    The only case when a bad detection could arise is when there's a problem with accurately determining
+    where the borders are, but that's out of the scope of the region-merging algorithm.
     """
     if i == 0 and j == 0:
         regions[last_region] = 1
@@ -156,7 +152,7 @@ def check_patch_borders(i, j, blocks, regions, regions_patches, last_region):
             # try merging with region above
             if i > 0:
                 pos_region = regions_patches[i - 1][j]
-                if cr_region is None:
+                if cr_region is None: # there was a left border
                     cr_region = pos_region
                 elif cr_region < pos_region:  # merge regions
                     # possibly not necessary, but merge all regions that had the respective root
@@ -170,13 +166,16 @@ def check_patch_borders(i, j, blocks, regions, regions_patches, last_region):
                             regions[region] = regions[pos_region]
                     regions[cr_region] = regions[pos_region]
         if cr_region is None:
-            # add a new region if it can't reach any new region
+            # add a new region if it can't reach any new region in the left and up directions
             regions[last_region] = last_region
             cr_region = last_region
             last_region += 1
         regions_patches[i][j] = cr_region
     return last_region
 
+# this does two things:
+# 1. first, it merges all regions with their respective root, i.e. if 2 and 3 have the same value in regions, they will be merged in regions_patches
+# 2. give new values to the merged regions, in the order they appear from the top-left to bottom-right
 def reassign_regions(regions, regions_patches):
     unique_regions = dict()
     unique_so_far = 0
@@ -194,18 +193,14 @@ def merge_answer_and_regions(answer, regions_patches):
             new_line += str(regions_patches[i][j])
             new_line += str(answer[i][j])
         answer[i] = []
-        answer[i][:] = new_line
+        answer[i][:] = new_line # trick to turn string to array of chars
 
 def check_square_j_bgr(square):
     square_only_lines = process_square_j_bgr(square)
-    # cv.imshow("bossultan", square_only_lines)
-    # cv.waitKey(0)
-    # cv.destroyAllWindows()
     square = process_square(square)
     ans = [["" for i in range(9)] for j in range(9)]
     blocks = np.zeros((9, 9), np.uint8) # a matrix containing all the blocking walls
 
-    # with the following encoding = ...0000 means no blocks, ...0001 means lb, ...0010 means rb, ...0100 means ub, ...1000 means db and any combinations have their obvious meanings
     dx, dy = RESIZED_SQ
     stepx, stepy = AVG_SQUARE
     i, j = 0, 0
@@ -237,13 +232,9 @@ def check_square_j_bgr(square):
             last_region = check_patch_borders(i, j, blocks, regions, regions_patches, last_region)
 
             if mean_center_patch < 255:
-                # check if it's not centered
-                # we'll start translating towards all four corners
-                # print(mean_center_patch)
                 # print("IO think it's full")
                 ans[i][j] = "x"
             else:
-                # print(mean_center_patch)
                 # print("IO think it's empty")
                 ans[i][j] = "o"
             j += 1
@@ -260,10 +251,11 @@ def check_all_squares_j_bgr(squares):
         answers.append(check_square_j_bgr(square))
     return answers
 
+# merge answers in the original order they were read in
 def merge_answers(ans_g, ans_bgr, positions):
     answers = []
     for (which, where) in positions:
-        if which == 0:
+        if which == GRAY:
             answers.append(ans_g[where])
         else:
             answers.append(ans_bgr[where])

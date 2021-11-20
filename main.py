@@ -12,7 +12,7 @@ from Code.Solving.check_content_jigsaw import check_all_squares_j_gray, check_al
     check_square_j_bgr
 from Code.Solving.bonus_j import check_templates_bgr, check_templates_gray
 
-__all__ = [cv, np]
+# __all__ = [cv, np]
 
 def main():
     # solve for task one + bonus
@@ -41,19 +41,6 @@ def main():
     write_ans(answers_j, JIGSAW)
     write_bonus(bonus_j, JIGSAW)
 
-    # def get_results(img,lines_horizontal,lines_vertical):
-    #     for i in range(len(lines_horizontal) - 1):
-    #         for j in range(len(lines_vertical) - 1):
-    #             y_min = lines_vertical[j][0][0]
-    #             y_max = lines_vertical[j + 1][1][0]
-    #             x_min = lines_horizontal[i][0][1]
-    #             x_max = lines_horizontal[i + 1][1][1]
-    #             patch = img_crop[x_min:x_max, y_min:y_max].copy()
-    #             cv.imshow("patch", patch)
-    #             cv.waitKey(0)
-    #             cv.destroyAllWindows()
-
-    # get_results(img,lines_horizontal,lines_vertical)
 
 if __name__ == "__main__":
     main()

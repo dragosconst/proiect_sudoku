@@ -1,5 +1,5 @@
 import os
-from Code.IO.load_images import CLASSIC, JIGSAW
+from Code.IO.load_images import CLASSIC, JIGSAW, CLASSIC_IMGS, JIGSAW_IMGS
 TRAINING_PATH_CLASSIC = "././antrenare/clasic/"
 TRAINING_PATH_JIGSAW = "././antrenare/jigsaw/"
 BONUS = "_bonus"
@@ -9,7 +9,7 @@ EXT = ".txt"
 def check_bonus(answers, flag=CLASSIC):
     # read results
     results = [[["" for i in range(len(answers[0][1]))] for j in range(len(answers[0]))] for k in range(len(answers))]
-    for i in range(1, (21 if flag == CLASSIC else 41)):
+    for i in range(1, (CLASSIC_IMGS if flag == CLASSIC else JIGSAW_IMGS)):
         this_result = [["" for i in range(len(answers[0][1]))] for j in range(len(answers[0]))]
         with open((TRAINING_PATH_CLASSIC if flag==CLASSIC else TRAINING_PATH_JIGSAW) + ("0" if i < 10 else "") + str(i) + BONUS + GT + EXT, "r") as f:
             lines = f.readlines()
@@ -31,4 +31,4 @@ def check_bonus(answers, flag=CLASSIC):
         if ans == res:
             print("Bonus passed!")
         else:
-            print("Bonus failed, i=%i", i)
+            print(f"Bonus failed, i={i}")

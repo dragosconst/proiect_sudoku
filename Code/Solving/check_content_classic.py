@@ -6,9 +6,6 @@ from Code.Data_Processing.processing_squares import  *
 
 def check_square(square):
     square = process_square(square)
-    # cv.imshow("square", square)
-    # cv.waitKey(0)
-    # cv.destroyAllWindows()
     ans = [["" for i in range(9)] for j in range(9)]
     dx, dy = RESIZED_SQ
     stepx, stepy = AVG_SQUARE
@@ -26,8 +23,6 @@ def check_square(square):
             mean_center_patch = np.mean(center_patch.squeeze())
             # print(mean_center_patch)
             if mean_center_patch < 255:
-                # check if it's not centered
-                # we'll start translating towards all four corners
                 # print(mean_center_patch)
                 # print("IO think it's full")
                 ans[i][j] = "x"

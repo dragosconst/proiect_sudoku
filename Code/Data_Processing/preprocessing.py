@@ -8,7 +8,7 @@ def show_image(title,image):
     cv.waitKey(0)
     cv.destroyAllWindows()
 
-# almost perfect values, IO think
+# almost perfect values, I think --> could mean overfitting
 def preprocess_image(image, flag=CLASSIC):
     image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
     image_m_blur = cv.medianBlur(image, 3)
@@ -22,8 +22,7 @@ def preprocess_image(image, flag=CLASSIC):
     # show_image("median blurred", image_m_blur)
     # show_image("gaussian blurred", image_g_blur)
     # show_image("sharpened", image_sharpened)
-    # if flag == JIGSAW:
-    #     show_image("threshold of blur", thresh)
+    # show_image("threshold of blur", thresh)
 
     edges = cv.Canny(thresh, 150, 400)
     contours, con = cv.findContours(edges, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
@@ -52,9 +51,6 @@ def preprocess_image(image, flag=CLASSIC):
                 bottom_right = possible_bottom_right
                 top_right = possible_top_right
                 bottom_left = possible_bottom_left
-
-    width = 500
-    height = 500
 
     image_copy = cv.cvtColor(image.copy(), cv.COLOR_GRAY2BGR)
     cv.circle(image_copy, tuple(top_left), 4, (0, 0, 255), -1)

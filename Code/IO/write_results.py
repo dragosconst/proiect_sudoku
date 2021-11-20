@@ -16,25 +16,19 @@ def write_ans(answers, flag=CLASSIC):
         if exc.errno != errno.EEXIST:
             raise
 
-    index = 1
-    for ans in answers:
-        with open(FILEPATH + (CLASSIC_PATH if flag == CLASSIC else JIGSAW_PATH) + str(index) + "_" + "predictie.txt", "w") as f:
+    for index, ans in enumerate(answers):
+        with open(FILEPATH + (CLASSIC_PATH if flag == CLASSIC else JIGSAW_PATH) + str(index + 1) + "_" + "predictie.txt", "w") as f:
             for line in ans:
                 for char in line:
                     f.write(char)
                 f.write('\n')
                 f.flush()
-        f.close()
-        index += 1
 
 def write_bonus(bonuses, flag=CLASSIC):
-    index = 1
-    for bonus in bonuses:
-        with open(FILEPATH + (CLASSIC_PATH if flag == CLASSIC else JIGSAW_PATH) + str(index) + BONUS_TEXT + "predictie.txt", "w") as f:
+    for index, bonus in enumerate(bonuses):
+        with open(FILEPATH + (CLASSIC_PATH if flag == CLASSIC else JIGSAW_PATH) + str(index + 1) + BONUS_TEXT + "predictie.txt", "w") as f:
             for line in bonus:
                 for char in line:
                     f.write(char)
                 f.write('\n')
                 f.flush()
-        f.close()
-        index += 1
