@@ -4,9 +4,9 @@ import numpy as np
 import os
 import errno
 
-TEMP_FP = "././antrenare/clasic/templates/"
-TEMP_J_BGR = "././antrenare/jigsaw/templates/bgr/"
-TEMP_J_GRAY = "././antrenare/jigsaw/templates/gray/"
+TEMP_FP = "././templates/clasic/"
+TEMP_J_BGR = "././templates/jigsaw/bgr/"
+TEMP_J_GRAY = "././templates/jigsaw/gray/"
 EXT = ".jpg"
 
 # this function should be called ONLY on square one, and ONLY after it is processed using the respective function
