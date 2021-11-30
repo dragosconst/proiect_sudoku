@@ -21,8 +21,8 @@ def main():
     sudoku_squares = resize_squares(sudoku_squares)
     answers = check_all_squares(sudoku_squares)
     bonuses = check_templates(sudoku_squares, answers)
-    check_results(answers)
-    check_bonus(bonuses)
+    # check_results(answers)
+    # check_bonus(bonuses)
     write_ans(answers)
     write_bonus(bonuses)
 
@@ -36,8 +36,8 @@ def main():
     bonus_sq_gray, bonus_sq_bgr = check_templates_gray(sudoku_sq_gray, answers_sq_gray), check_templates_bgr(sudoku_sq_bgr, answers_sq_bgr)
     answers_j = merge_answers(answers_sq_gray, answers_sq_bgr, positions)
     bonus_j = merge_answers(bonus_sq_gray, bonus_sq_bgr, positions)
-    check_results(answers_j, JIGSAW)
-    check_bonus(bonus_j, JIGSAW)
+    # check_results(answers_j, JIGSAW)
+    # check_bonus(bonus_j, JIGSAW)
     write_ans(answers_j, JIGSAW)
     write_bonus(bonus_j, JIGSAW)
 
