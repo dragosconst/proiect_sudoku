@@ -1,6 +1,5 @@
 import cv2.cv2 as cv
 import numpy as np
-import math
 from Code.Data_Processing.get_squares import RESIZED_SQ, AVG_SQUARE
 from Code.Data_Processing.processing_squares import  *
 from Code.IO.get_number_templates import get_j_bgr_templates, get_j_gray_templates

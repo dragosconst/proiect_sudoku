@@ -7,7 +7,7 @@ IMG_EXTENSION = ".jpg"
 CLASSIC = 0
 JIGSAW = 1
 
-CLASSIC_IMGS = 21
+CLASSIC_IMGS = 22
 JIGSAW_IMGS = 41
 
 """
@@ -18,7 +18,7 @@ def load_imgs(flag = CLASSIC):
     for i in range(1, CLASSIC_IMGS if flag == CLASSIC else JIGSAW_IMGS):
         i_char = str(i) if i >= 10 else "0" + str(i)
         img = cv.imread((CLASSIC_PATH if flag == CLASSIC else JIGSAW_PATH) + i_char + IMG_EXTENSION)
-        img = cv.resize(img, (0, 0), fx=0.2, fy=0.2) # why??
+        img = cv.resize(img, (0, 0), fx=0.2, fy=0.2)
         imgs.append(img)
     return imgs
 

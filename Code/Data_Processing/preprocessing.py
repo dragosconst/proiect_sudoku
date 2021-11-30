@@ -1,7 +1,7 @@
 import numpy as np
 import cv2.cv2 as cv
 from Code.IO.load_images import CLASSIC, JIGSAW
-
+from Code.Data_Processing.processing_squares import normalize_image
 
 def show_image(title,image):
     cv.imshow(title,image)
@@ -11,6 +11,7 @@ def show_image(title,image):
 # almost perfect values, I think --> could mean overfitting
 def preprocess_image(image, flag=CLASSIC):
     image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+    image = normalize_image(image)
     image_m_blur = cv.medianBlur(image, 3)
     image_g_blur = cv.GaussianBlur(image_m_blur, (0, 0), 7)
     image_sharpened = cv.addWeighted(image_m_blur, 1.35, image_g_blur, -0.85, 0)
@@ -18,10 +19,10 @@ def preprocess_image(image, flag=CLASSIC):
 
     kernel = np.ones((5, 5), np.uint8)
     thresh = cv.erode(thresh, kernel)
-
+    #
     # show_image("median blurred", image_m_blur)
     # show_image("gaussian blurred", image_g_blur)
-    # show_image("sharpened", image_sharpened)
+    # # show_image("sharpened", image_sharpened)
     # show_image("threshold of blur", thresh)
 
     edges = cv.Canny(thresh, 150, 400)

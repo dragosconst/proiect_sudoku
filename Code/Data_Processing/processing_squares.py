@@ -6,7 +6,7 @@ def normalize_image(img):
     noise = cv.dilate(img, np.ones((7,7),np.uint8))
     blur = cv.medianBlur(noise, 21)
     res = 255 - cv.absdiff(img, blur)
-    no_shdw = cv.normalize(res,None, alpha=0, beta=255, norm_type=cv.NORM_MINMAX)
+    no_shdw = cv.normalize(res,None, alpha=0, beta=200, norm_type=cv.NORM_MINMAX)
     return no_shdw
 
 # apply a couple filters to the square, to get a more useful image to work with
