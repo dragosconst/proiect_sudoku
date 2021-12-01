@@ -17,7 +17,7 @@ def write_ans(answers, flag=CLASSIC):
             raise
 
     for index, ans in enumerate(answers):
-        with open(FILEPATH + (CLASSIC_PATH if flag == CLASSIC else JIGSAW_PATH) + str(index + 1) + "_" + "predicted.txt", "w+") as f:
+        with open(FILEPATH + (CLASSIC_PATH if flag == CLASSIC else JIGSAW_PATH) + ("0" if index < 9 else "") + str(index + 1) + "_" + "predicted.txt", "w+") as f:
             for index, line in enumerate(ans):
                 for char in line:
                     f.write(char)
@@ -27,7 +27,7 @@ def write_ans(answers, flag=CLASSIC):
 
 def write_bonus(bonuses, flag=CLASSIC):
     for index, bonus in enumerate(bonuses):
-        with open(FILEPATH + (CLASSIC_PATH if flag == CLASSIC else JIGSAW_PATH) + str(index + 1) + BONUS_TEXT + "predicted.txt", "w+") as f:
+        with open(FILEPATH + (CLASSIC_PATH if flag == CLASSIC else JIGSAW_PATH) + ("0" if index < 9 else "") + str(index + 1) + BONUS_TEXT + "predicted.txt", "w+") as f:
             for index, line in enumerate(bonus):
                 for char in line:
                     f.write(char)
