@@ -9,3 +9,4 @@ De asemenea, codul ar trebuie extras în următorul fel: main.py și folderul Co
 
 ### Observatii
 Când am început proiectul, nu am observat că deja ne era dat un script de evaluare, așa că mi-am scris și eu propriile funcții. Ele nu mai au nicio utilitate în versiunea actuală a proiectului, dar am decis să le includ, pentru că totuși mi-au fost de mare ajutor pe parcursul proiectului.
+Link github: https://github.com/dragosconst/proiect_sudoku. 
