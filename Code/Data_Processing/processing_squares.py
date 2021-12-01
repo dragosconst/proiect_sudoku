@@ -21,7 +21,7 @@ def process_square(square):
     return thresh
 
 
-# this will only leave the thicc lines
+# this will only leave the thick lines
 def process_square_j_bgr(square):
     square = cv.cvtColor(square, cv.COLOR_BGR2GRAY)
     square = normalize_image(square)

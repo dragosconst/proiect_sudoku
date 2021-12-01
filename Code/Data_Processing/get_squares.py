@@ -16,7 +16,7 @@ def crop_squares(imgs, flag=CLASSIC):
         yn = np.max(np.array([bly, bry]))
 
         # check for rotated image, we are assuming an angle of rotation under 90 degrees (or over 270)
-        # for something over 90 degrees, we'd need to rotate by whatever is (angle - 90) and then figure out
+        # for something between 90 and 270, we'd need to rotate by whatever is (angle - 90) and then figure out
         # with pattern matching that the numbers are reversed
 
         if np.abs(x0 - tlx) >= THRESHOLD_ROTATE or np.abs(x0 - blx) >= THRESHOLD_ROTATE:
@@ -47,7 +47,7 @@ def crop_squares(imgs, flag=CLASSIC):
                                            int(np.max([tly, trry, bly, bry]) - np.max([tly, trry, bly, bry]))))
 
             # recalculate where the points are
-            x0 = np.max((np.max(np.array([tlx, blx])), 0)) # account for small angles, in which we could have bizzare cases of not exact perfect squares
+            x0 = np.max((np.max(np.array([tlx, blx])), 0)) # account for small angles, in which we could have bizzare cases of not exact perfect squares, which results in negative differences
             y0 = np.max((np.max(np.array([tly, trry])), 0))
             xn = np.max((np.min(np.array([trx, brx])), 0))
             yn = np.max((np.min(np.array([bly, bry])), 0))

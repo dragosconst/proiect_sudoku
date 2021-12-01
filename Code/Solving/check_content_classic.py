@@ -2,6 +2,7 @@ import cv2.cv2 as cv
 import numpy as np
 from Code.Data_Processing.get_squares import RESIZED_SQ, AVG_SQUARE
 from Code.Data_Processing.processing_squares import  *
+from Code.Data_Processing.preprocessing import show_image
 
 
 def check_square(square):
@@ -19,7 +20,9 @@ def check_square(square):
             if xi + stepx >= dx: # last bit of the square is uninteresting
                 continue
             current_patch = square[yi:yi+stepy, xi:xi+stepx]
+            # show_image("current", current_patch)
             center_patch = square[(yi+stepy//4):(yi+stepy*3//4), (xi+stepx//4):(xi+stepx*3//4)]
+            # show_image("current", center_patch)
             mean_center_patch = np.mean(center_patch.squeeze())
             # print(mean_center_patch)
             if mean_center_patch < 255:

@@ -1,7 +1,7 @@
 import cv2.cv2 as cv
 import numpy as np
 
-THRESH_COLOR = 30
+THRESH_COLOR = 33
 GRAY = 0
 BGR = 1
 # simple function to check whether a loaded image is grayscale or not

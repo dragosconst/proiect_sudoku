@@ -16,15 +16,12 @@ def check_square_j(square, ans, temp_classic, temp_j_bgr, temp_j_gray):
                 patch = square[y:(y+sy), x:(x+sx)]
                 max_val = None
                 template = -1
-                index = 1
                 for templates in (temp_classic, temp_j_bgr, temp_j_gray):
-                    index = 1
-                    for t in templates:
+                    for index, t in enumerate(templates):
                         min_t, max_t, min_l_t, max_l_t = cv.minMaxLoc(cv.matchTemplate(patch, t, cv.TM_CCOEFF_NORMED))
                         if max_val is None or max_t > max_val:
                             max_val = max_t
-                            template = index
-                        index += 1
+                            template = index + 1
                 bonus[i][j] = str(template)
                 tj += 1
             elif ans[i][j] == "o":

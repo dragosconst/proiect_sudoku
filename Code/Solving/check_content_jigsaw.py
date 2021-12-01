@@ -143,17 +143,20 @@ def check_patch_borders(i, j, blocks, regions, regions_patches, last_region):
         regions_patches[i][j] = 1
     else:
         cr_region = None
+        cr_region_hval = None
         if not (blocks[i][j] & LEFT_BORDER):
             # if there is no left border, try merging with left region
             if j > 0:
                 cr_region = regions_patches[i][j - 1]
+                cr_region_hval = regions[regions_patches[i][j - 1]]
         if not (blocks[i][j] & UP_BORDER):
             # try merging with region above
             if i > 0:
                 pos_region = regions_patches[i - 1][j]
+                pos_region_hval = regions[regions_patches[i - 1][j]]
                 if cr_region is None: # there was a left border
                     cr_region = pos_region
-                elif cr_region < pos_region:  # merge regions
+                elif cr_region_hval < pos_region_hval:  # merge regions
                     # possibly not necessary, but merge all regions that had the respective root
                     for region, root in regions.items():
                         if root == regions[pos_region]:

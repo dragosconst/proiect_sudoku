@@ -2,8 +2,8 @@ import numpy as np
 import cv2.cv2 as cv
 import os
 
-CLASSIC_PATH = "././evaluare/fake_test/clasic/"
-JIGSAW_PATH = "././evaluare/fake_test/jigsaw/"
+CLASSIC_PATH = "././testare/clasic/"
+JIGSAW_PATH = "././testare/jigsaw/"
 IMG_EXTENSION = ".jpg"
 CLASSIC = 0
 JIGSAW = 1
